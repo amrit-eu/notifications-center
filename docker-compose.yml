@@ -1,0 +1,77 @@
+services: 
+  alerta-api:
+    container_name: amrit-alerta
+    image: amrit-alerta
+    build: 
+      context: ./alerta
+      dockerfile: Dockerfile
+    ports:
+      - 8000:8080
+    environment:
+      - PLUGINS=${PLUGINS}
+      - DATABASE_URL=${DATABASE_URL}
+      - AUTH_REQUIRED=True
+      - ADMIN_USERS=${ADMIN_USERS}
+      - ADMIN_KEY=${ADMIN_KEY}
+      - ALERTA_READ_API_KEY=${ALERTA_READ_API_KEY}
+      - SECRET_KEY=${SECRET_KEY}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - ALLOWED_JWT_ROLES=${ALLOWED_JWT_ROLES}      
+      - USER_ROLES=${USER_ROLES}
+      - USER_DEFAULT_SCOPES=${USER_DEFAULT_SCOPES}
+      - DELETE_SCOPES=${DELETE_SCOPES}
+      - MQTT_HOST_URL=${MQTT_HOST_URL}
+      - MQTT_HOST_PORT=${MQTT_HOST_PORT}
+      - MQTT_USE_TLS=${MQTT_USE_TLS}
+      - MQTT_USERNAME_RW=${MQTT_USERNAME_RW}
+      - MQTT_PASSWORD_RW=${MQTT_PASSWORD_RW}
+      - MQTT_USERNAME_RO=${MQTT_USERNAME_RO}
+      - MQTT_PASSWORD_RO=${MQTT_PASSWORD_RO}
+      - MQTT_TOPIC_ALERTA_PROCESSED_PUB=${MQTT_TOPIC_ALERTA_PROCESSED_PUB}
+      - MQTT_TOPIC_ALERTA_RAW_SUB=${MQTT_TOPIC_ALERTA_RAW_SUB}
+      - DELETE_INFO_AFTER=${DELETE_INFO_AFTER}
+      - DELETE_EXPIRED_AFTER=${DELETE_EXPIRED_AFTER}
+      - HK_EXPIRED_DELETE_HRS=${HK_EXPIRED_DELETE_HRS}
+      - HK_INFO_DELETE_HRS=${HK_INFO_DELETE_HRS}    
+    networks:
+      - notification-center
+    depends_on:
+      db:
+        condition: service_healthy
+      mosquitto:
+        condition: service_started
+  db:
+    image: postgres:18
+    volumes:
+      - ./pg-data:/var/lib/postgresql
+    environment:
+      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+    networks:
+      - notification-center
+    healthcheck:
+      test: ["CMD", "pg_isready", "-q", "-d", "monitoring", "-U", "postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5  
+  mosquitto:
+    image: eclipse-mosquitto:2.0.20
+    container_name: mosquitto
+    user: 1000:1000
+    volumes:
+      - ./mqtt-broker/mnt/config:/mosquitto/config:rw
+      - ./mqtt-broker/mnt/data:/mosquitto/data:rw
+    environment:
+      - TZ=Europe/Paris
+    networks:
+      - notification-center
+    ports: 
+      - 8080:8080
+
+networks:
+  notification-center:
+    driver: bridge
+    name: notification-center
+  
+

@@ -1,0 +1,128 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"title": "Alerta alert model",
+	"description": "An alert as expected by Alerta",
+	"properties": {
+		"resource": {
+			"type": "string",
+			"description": "Unique identifier of resource under alarm."
+		},
+		"event" :{
+			"type": "string",
+			"description":"event name"			
+		},
+		"environment": {
+			"type": "string",
+			"description": "Environment, used to namespace the resource. Development or Production.",
+			"enum": ["Development", "Production"]
+		},
+		"severity": {
+			"type": "string",
+			"description": "Severity of alert (default normal)",
+			"enum": ["security","critical","major","minor","warning","informational","debug","trace","indeterminate","cleared","normal","ok", "unknown"]
+		},
+		"correlate" : {
+			"type": "array",
+  			"items": { "type": "string" }
+		},
+		"status" : {
+			"type": "string",
+			"description": "Status of alert (default open)",
+			"enum": ["open","assign","ack","closed","expired","blackout","shelved","unknown"]
+		},
+		"service": {
+			"type": "array",
+			"description" : "list of effected services",
+			"items" : {"type": "string"},
+			"minItems":1,
+			"uniqueItems": true
+		},
+		"group" : {
+			"type": "string",
+			"description" : "event group used to group events of similar type"
+		},
+		"value" : {
+			"type": "string",
+			"description" : "event value eg. 100%, Down, PingFail, 55ms, ORA-1664"
+		},
+		"text" : {
+			"type": "string",
+			"description": "freeform text description"
+		},
+		"tags" : {
+			"type" : "array",
+			"description": "set of tags in any format eg. aTag, aDouble:Tag, a:Triple=Tag",
+			"items": {"type": "string"},
+			"uniqueItems": true
+		},
+		"attributes": {
+			"type": "object",
+			"description": "Dictionary of key-value pairs",
+			"properties" : {
+				"Country":{
+					"type":"string",
+					"description": "country of origin of the alert"
+				},
+				"lastCycleNumberToRaiseAlarm":{
+					"type":"string",
+					"description": "Float last cycle number which raised the alert"
+				},
+				"LastStationDate":{
+					"type":"date-time",
+					"description": "Float last station UTC date-time"
+				},
+				"basin_id":{
+					"type":"string",
+					"description": "Identification of maritime zone"
+				},
+				"wigos_id":{
+					"type":"string",
+					"description": "WIGOS Station Identifiers"
+				},
+				"url":{
+					"type":"string",
+					"description": "URL for more informations on the resource"
+				},
+				"dac_name": {
+					"type": "string",
+					"description" : "name of the dac managing the resource responsible of the alert"
+				},
+				"alert_category" : {
+					"type" : "string",
+					"description" : "category of alert. See XXX",
+					"enum" : ["Operations alerts","Data management", "Information", "Support requests", "EEZ","Beaching","Icing","Technical issue","Battery issue","Data checker","QC feedback","Metadata check","Platform","Cruises","Data","New platform", "Platform recovery", "New Cruises","New data flow","Deployment or Retrieval","Deployment request","Retrieval request","Data processing request","Data access request","Dashboard"]
+				},
+				"mqtt_topic": {
+					"type": "string",
+					"description": "MQTT topic on which the alert was received",
+					"enum": ["operations-alerts","data-management","information","support-requests"]
+				}
+			},
+			"required": ["Country", "alert_category"],
+			"additionalProperties": true
+		},
+		"origin" : {
+			"type" : "string",
+			"description" : "name of monitoring component that generated the alert"
+		},
+		"type" : {
+			"type": "string",
+			"description" : "alert type eg. snmptrapAlert, syslogAlert, gangliaAlert"
+		}, 
+		"createTime": {
+			"type": "date-time",
+			"description": "UTC date-time the alert was generated in ISO8601 format"
+		},
+		"timeout": {
+			"type":"integer",
+			"description" : "number of seconds before alert is considered stale"
+		},
+		"rawData" : {
+			"type" : "string",
+			"description" : "unprocessed data eg. full syslog message or SNMP trap"
+		}		
+		
+	},
+	"required":["resource", "event", "environment", "service", "attributes"]
+	
+}

@@ -1,0 +1,31 @@
+{	
+	"specversion": "1.0",
+	"subject": "7900697",
+	"id": "6fd119c1-e404-4918-b9fc-5a35992e5fba",
+	"source": "Coriolis Argo Technical data alerts",
+	"time": "2025-03-18T15:45:24.046934600Z",
+	"type": "argo float alert demo",
+	"datacontenttype": "application/json",
+	"data": {
+		"resource": "7900697",
+		"event": "FLAG_FalseGrounding_LOGICAL",
+		"severity": "informational",
+		"environment": "Development",		
+		"service": [
+			"Commonwealth Scientific and Industrial Research Organisation"
+		],
+		"group": "argo float alarm",
+		"origin": "Coriolis Argo Technical data alerts",
+		"attributes": {
+			"FleetMonitoringLink": "<a href='https://fleetmonitoring.euro-argo.eu/float/7900697' target='_blank' >Go to float page on Fleet Monitoring</a>",
+			"ArgoType": "PSEUDO",
+			"Country": "Australia",
+			"lastCycleNumberToRaiseAlarm": "3",
+			"LastStationDate": "17-03-2025"
+		},
+		"value": "Unknown value",
+		"text": "Float detected a grounding which is suspicious given the bathymetry ascent",		
+		"type": "argo float alert demo",		
+		"timeout": 1209600		
+	}
+}
