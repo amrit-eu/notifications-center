@@ -11,7 +11,7 @@ In the AMRIT environment, Alerta is used throughout the [AMRIT Gateaway and Dash
 
 ## Deploy the notification center
 
-You should use Docker to deploy Notification center a,s in this repo, only some alerta modified python files are provided and this files are copied during the build process with Docker. You could also clone the [Alerta github repository](https://github.com/alerta/alerta) and replace manually the python files.
+You should use Docker to deploy Notification center because in this repo, only some alerta modified python files are provided and this files are copied during the build process with Docker. You could also clone the [Alerta github repository](https://github.com/alerta/alerta) and replace manually the python files.
 
 A docker compose file is provided to launch 3 services : custom alerta, posgreSQL and mosquitto MQTT broker.
 You will need an environment file to define expected environment variable. You can use the demo one `.env.demo` by renaming it in `.env`.
@@ -27,7 +27,7 @@ docker compose up --build
 The default alerta UI is then accessible at `http://localhost:8000/`. You can log in using admin user & password defined in .env file.
 
 ## Publish Alerts on notification center
-### using MQTT broker
+### Using MQTT broker
 The preferred way to publish alert is to send a cloudEvent message to the MQTT broker. The message must respect the schema defined in the file `cloudEvent_alerta_raw.schema.json` where the alert payload is in the data attribute.
 You must publish the message to the topic `amrit/notification/raw/`.
 Four sub-topics has been defined for the notification center to  better categorise alerts and allow other systems to subscribe only to certain types of alerts :
@@ -38,7 +38,7 @@ Four sub-topics has been defined for the notification center to  better categori
 
 The python [alrit-mqtt-publisher](./amrit-mqtt-publisher/) is provided to help you to publish alerts on the MQTT. This python program handle the creation of the cloudEvent message alongs with alert format verification and handle the client connection to MQTT and publish message. Please see the [Readme.md](./amrit-mqtt-publisher/README.md) for mor information
 
-### using Alerta's API
+### Using Alerta's API
 You can also use directly the [Alerta's API](https://docs.alerta.io/api/reference.html) to POST alerts. You will need API key you can create using the alerta UI admin menu.
 
 
@@ -53,7 +53,7 @@ Retrieve and act on alerts using [Alerta's API](https://docs.alerta.io/api/refer
 After an alert is received by Alerta (from MQTT or from API), alerta process it (deduplication, add attribute, history, save to database), the eenriched alert is publish back to the topic `amrit/notification/processed/#` (one of the 4 sub-topic). It allows other system to subscribe to theses "processed" topics and be informed in real time when new alerts has been received by the system.
 For example the [AMRIT Gateaway](https://github.com/amrit-eu/amrit-dashway) is subscribed to `amrit/notification/processed/#` and send email to users and web notification to the Amrit Dashboard using websocket.
 
-### default Alerta UI
+### Default Alerta UI
 You can use the default alerta UI at `http://localhost:8000/`
 
 ## Mqtt broker configuration
@@ -122,7 +122,7 @@ VERIFY_JWT_JWKS_ENDPOINT='http://amrit-gateway:3000/api/oceanops/auth/.well-know
 - Modification of the built-in 'reject' plugin so that alert validation follows the alert schema defined for AMRIT (certain mandatory attributes such as Country and alert_category).
 
 **Warning: the modifications have only been applied for a PostgreSQL database.**
-### installation 
+### Installation 
 The Docker image build uses the official image in its latest version ('FROM alerta/alerta-web'). The following files are then added/overwritten in the container:
 
 - 2 .py files (bearer.py and __init__.py) for JWT authentication handling.
@@ -131,7 +131,7 @@ The Docker image build uses the official image in its latest version ('FROM aler
 
 The Dockerfile is provided.
 
-### generate python class models.py from JSON schemas :
+### Generate python class models.py from JSON schemas :
 Installdatamodel-code-generator :
 
 ```
