@@ -1,4 +1,4 @@
-# notifications center
+# AMRIT Notifications Center
 The AMRIT notification center is based on a modified [ALERTA](https://alerta.io/) system, a PostgreSQL database and a MQTT broker. 
 - Alerta is an open-source alert management system that enables alert correlation and deduplication, management of operator actions on alerts (acknowledgement, closure, addition of comments, deletion), recording of alerts in a database, and provision of an API for viewing and managing these alerts.
 - The MQTT broker alows user to publish alerts on a 'amrit/notification/raw/#' topic which will be automatically taken into acount by Alerta, processed and published back on MQTT by Alerta to a 'amrit/notification/processed/#' topic. This allows other systems to subscribes to 'amrit/notification/processed/#' and received in real time new alerts. For example a notification system with emails developped with AMRIT is subscribed to 'amrit/notification/processed/#' and send emails to users according to their preference.
