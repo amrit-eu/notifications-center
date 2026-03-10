@@ -32,5 +32,6 @@ COPY mqtt_service.conf /app/mqtt_service.conf
 USER root
 COPY entrypoint.sh /app/entrypoint.sh
 RUN chmod +x /app/entrypoint.sh
+RUN chown -R 1001:1001 /app /venv /web
 USER 1001
 ENTRYPOINT ["/app/entrypoint.sh"]
