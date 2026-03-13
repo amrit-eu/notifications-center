@@ -1,5 +1,18 @@
-FROM alerta/alerta-web
+# STAGE 1 - Build Vue.js with right BASE_URL
+FROM node:14-alpine AS build-stage
+RUN apk add --no-cache python3 py3-pip make g++ git
+WORKDIR /app
+ADD https://github.com/alerta/alerta-webui/archive/master.tar.gz /tmp/webui.tar.gz
+RUN tar zxvf /tmp/webui.tar.gz -C /app --strip-components=1
+RUN npm install
+ARG BASE_URL=""
+RUN BASE_URL=${BASE_URL} npm run build
 
+
+FROM alerta/alerta-web
+# Replace UI with the one built with right BASE_URL
+COPY --from=build-stage /app/dist /web
+COPY config.json /web/config.json
 
 # JWT AUTH - Remplace directement dans le container les fichiers modifiés pour les besoins de l'auth amrit par jeton JWT :
 COPY amrit_custom_alerta_patch/alerta/auth/__init__.py /venv/lib/python3.9/site-packages/alerta/auth/__init__.py

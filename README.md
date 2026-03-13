@@ -26,6 +26,9 @@ docker compose up --build
 ```
 The default alerta UI is then accessible at `http://localhost:8000/`. You can log in using admin user & password defined in .env file.
 
+### Changing base url
+If you want to deploy alerta with UI and API on a sub-path of your domain (for example www.youdomain.com/your-base-path), you need to change the BASE_URL at build time:  modify DockerFile `ARG BASE_URL="/you-Base-path"` and change the file `config.json` : `{"endpoint": "/your-base-path/api"}`
+
 ## Publish Alerts on notification center
 ### Using MQTT broker
 The preferred way to publish alert is to send a cloudEvent message to the MQTT broker. The message must respect the schema defined in the file `cloudEvent_alerta_raw.schema.json` where the alert payload is in the data attribute.
