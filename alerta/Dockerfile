@@ -9,7 +9,7 @@ ARG BASE_URL=""
 RUN BASE_URL=${BASE_URL} npm run build
 
 
-FROM alerta/alerta-web
+FROM alerta/alerta-web:9.0.4
 # Replace UI with the one built with right BASE_URL
 COPY --from=build-stage /app/dist /web
 COPY config.json /web/config.json

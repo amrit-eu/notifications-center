@@ -58,6 +58,8 @@ services:
   mosquitto:
     image: eclipse-mosquitto:2.0.20
     container_name: mosquitto
+    ports: 
+      - 8080:8080
     user: 1000:1000
     volumes:
       - ./mqtt-broker/mnt/config:/mosquitto/config:rw
@@ -65,9 +67,7 @@ services:
     environment:
       - TZ=Europe/Paris
     networks:
-      - notification-center
-    ports: 
-      - 8080:8080
+      - notification-center    
 
 networks:
   notification-center:
