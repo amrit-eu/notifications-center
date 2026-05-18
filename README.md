@@ -46,10 +46,32 @@ You can also use directly the [Alerta's API](https://docs.alerta.io/api/referenc
 
 
 ## Consult Alerts from notification center
-### Using Amrit Dashboard
-Please consult [Wiki](https://github.com/amrit-eu/notifications-center-docs/wiki) menu to know how to consult all alert from the system, act on it and manage user subscriptions.
+### Using Amrit Dashboard & gateway
+#### Dashboard
+Please consult [Wiki](https://github.com/amrit-eu/notifications-center-docs/wiki) menu to know how to consult all alert from the system, act on it and manage user subscriptions from the Amrit Dashboard
 
-### Using ALerta API
+#### Gateway
+#### API
+You can access [Alerta API](#using-alerta-api) through the Gateway.
+
+Example from the production version to retrieve alerts history : https://www.ocean-ops.org/amrit-gateway/api/alerta/alerts 
+
+#### Websockets
+The Gateway is susbcribed to the [MQTT](#subscribe-to-the-processed-mqtt-topic) to received all new alerts message. A basic websockets notification has been set on the Gateway. It is connected to the Subscriptions system.
+For the moment 2 namespace has been defined :
+- "alerts:refresh" : sending message for refreshing alerts table on all authenticated user.
+- "notifications:new" : if the authenticated user has a subscription corresponding to the new alert received, it will receive on the websocket a message containing basinc information about the alert : 
+
+```javascript
+
+NotificationDTO {
+    id: string;
+    text: string;
+    type: NotificationType;
+}
+```
+
+### Using Alerta API
 Retrieve and act on alerts using [Alerta's API](https://docs.alerta.io/api/reference.html).
 
 ### Subscribe to the "processed" MQTT topic.
