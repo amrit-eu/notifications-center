@@ -1,0 +1,26 @@
+{
+     
+  "resource": "55555",
+  "event": "fake_alert",
+  "environment": "Development",
+  "severity": "informational",
+  "correlate": [],
+  "status": "open",
+  "service": ["euro-argo"],
+  "group": "argo float alarm",
+  "value": "0",
+  "text": "test alert",
+  "tags": [],
+  "attributes": {
+    "Country": "Spain",          
+    "alert_category": "Information",          
+    "ArgoType": "PSEUDO",
+    "LastStationDate": "24-05-2025",
+    "url":"https://fleetmonitoring.euro-argo.eu/float/5906990",        
+    "lastCycleNumberToRaiseAlarm": "107"
+  },
+  "origin": "test alert sender",
+  "type": "argo float alert demo",        
+  "timeout": 120
+}      
+    

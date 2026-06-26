@@ -1,0 +1,3 @@
+---
+include:
+  - component: $CI_SERVER_FQDN/dev-ops/templates/automatisation/ci-cd/pipeline-python@~latest
