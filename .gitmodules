@@ -1,0 +1,3 @@
+[submodule "amrit-mqtt-publisher"]
+	path = amrit-mqtt-publisher
+	url = https://gitlab.ifremer.fr/amrit/development/notification-center/amrit-mqtt-publisher.git
